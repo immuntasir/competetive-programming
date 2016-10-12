@@ -1,0 +1,90 @@
+// This will hopefully generate the nth fibonacci number modulo something
+// n is a 32-bit integer
+// the modulus value is 10^9 + 7
+
+#include <bits/stdc++.h>
+#define MOD 1000000007
+using namespace std;
+
+void print(vector < vector <int> > &ara) {
+    int sz = ara.size();
+    for (int i=0; i<sz; i++) {
+        for (int j=0; j<sz; j++) printf("%d ", ara[i][j]);
+        printf("\n");
+    }
+}
+// This will add the two matrices and store the result in a1
+void MatAdd (vector < vector <int> > &a1, vector < vector <int> > &a2) {
+    int sz = a1.size();
+    for (int i=0; i<sz; i++) {
+        for (int j=0; j<sz; j++) {
+            a1[i][j] += a2[i][j];
+            a1[i][j] %= MOD;
+        }
+    }
+}
+// this will multiply the two arrays and store the result in a1
+void MatMultiply (vector < vector <int> > &a1, vector < vector <int> > &a2) {
+    vector < vector < long long > > ans;
+    int sz = a1.size();
+    vector <long long> tmp;
+    for (int j=0; j<sz; j++) tmp.push_back(0);
+    for (int i=0; i<sz; i++) {
+        ans.push_back(tmp);
+    }
+    for (int i=0; i<sz; i++) {
+        for (int j=0; j<sz; j++) {
+            for (int k=0; k<sz; k++) {
+                ans[i][j] = ans[i][j] + ((long long)a1[i][k]%MOD*(long long)a2[k][j]%MOD) %MOD;
+                ans[i][j]%=MOD;
+            }
+        }
+    }
+    for (int i=0; i<sz; i++)
+        for (int j=0; j<sz; j++)
+            a1[i][j] = (int)ans[i][j];
+}
+// This function will raise the power of the input array to n
+void MatExpo (vector < vector <int> > &ara, int n) {
+    int ret = n&1;
+    int sz = ara.size();
+    vector < vector < int > > ans;
+
+    vector <int> tmp;
+    for (int j=0; j<sz; j++) tmp.push_back(0);
+    for (int i=0; i<sz; i++) {
+        ans.push_back(tmp);
+    }
+    for (int i=0; i<sz; i++) {
+        for (int j=0; j<sz; j++)
+            if (i==j) ans[i][j] = 1;
+    }
+    while (n || ret) {
+        n = n >> 1;
+        if (ret) MatMultiply(ans, ara);
+        MatMultiply(ara, ara);
+        ret = n&1;
+    }
+    for (int i=0; i<2; i++)
+        for (int j=0; j<2; j++)
+            ara[i][j] = ans[i][j];
+}
+// This function will calculate F(n) = F(n-1) + F(n-2) magically
+int F(int n) {
+    if (n<0) return 0;
+    int sz = 2;
+    vector < vector < int > > ara;
+    vector <int> tmp;
+    tmp.clear();
+    for (int j=0; j<sz; j++) tmp.push_back(0);
+    for (int i=0; i<sz; i++) {
+        ara.push_back(tmp);
+    }
+    ara[0][1] = ara[1][1] = ara[1][0] = 1;
+    MatExpo(ara, n);
+    return ara[0][0] + ara[0][1];
+}
+int main () {
+
+    return 0;
+}
