@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+int lps[1000010];
+char str[1000010];
+char txt[1000010];
+void precal() {
+    memset(lps, 0, sizeof lps);
+    int len=0;
+    int cur=1;
+    lps[00] = 0;
+    int leng = strlen(str);
+    while (cur < leng) {
+        if (str[cur] == str[len]) {
+            len++;
+            lps[cur] = len;
+            cur++;
+        }
+        else {
+            if (len!=0) {
+                len = lps[len-1];
+            }
+            else {
+                lps[cur] = 0;
+                cur++;
+            }
+        }
+    }
+}
+int kmp() {
+    int len1 = strlen(txt);
+    int len2 = strlen(str);
+    int i, j;
+    i = j = 0;
+    precal();
+    int cnt = 0;
+    while (i<len1) {
+        if (txt[i] == str[j]) {
+            i++;
+            j++;
+        }
+        if (j==len2) {
+            // pattern found;
+            cnt++;
+           // printf("Pattern found at %d\n", i-j);
+            j = lps[j-1];
+        }
+        else if (i<len1 && txt[i] != str[j]) {
+            if (j!=0) j = lps[j-1];
+            else i++;
+        }
+    }
+    return cnt;
+}
+int main () {
+   // freopen("in.txt", "r", stdin);
+    int T;
+    scanf("%d", &T);
+    for (int cs=1; cs<=T; cs++) {
+        scanf("%s %s", txt, str);
+        printf("Case %d: %d\n", cs, kmp());
+    }
+    return 0;
+}
