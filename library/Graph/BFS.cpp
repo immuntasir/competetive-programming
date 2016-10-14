@@ -7,7 +7,7 @@ int level[MAX];
 int parent[MAX];
 void Input (int n, int m) {
     int a, b;
-    for (int i=0; i<m; i++) {
+    for (int i=0; i<n; i++) {
         edge[i].clear();
         visited[i] = 0;   
     }
