@@ -11,9 +11,11 @@ int shomoy;
 void Input (int n, int m) {
     int a, b;
     shomoy = 0;
-    for (int i=0; i<m; i++) {
+    for (int i=0; i<n; i++) {
         edge[i].clear();
-        visited[i] = 0;
+        visited[i] = 0;   
+    }
+    for (int i=0; i<m; i++) {
         scanf("%d %d", &a, &b);
         edge[a].push_back(b);
         //edge[b].push_back(a);
