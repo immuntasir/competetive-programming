@@ -65,8 +65,8 @@ void MatExpo (vector < vector <int> > &ara, int n) {
         MatMultiply(ara, ara);
         ret = n&1;
     }
-    for (int i=0; i<2; i++)
-        for (int j=0; j<2; j++)
+    for (int i=0; i<sz; i++)
+        for (int j=0; j<sz; j++)
             ara[i][j] = ans[i][j];
 }
 // This function will calculate F(n) = F(n-1) + F(n-2) magically
